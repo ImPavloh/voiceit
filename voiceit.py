@@ -10,7 +10,16 @@ import json
 import os
 
 CURRENT_DIR = Path(__file__).resolve().parent
-MODELOS = CURRENT_DIR / "modelos"
+MODELOS = None
+for dir_name in ["modelos", "models"]:
+    potential_path = CURRENT_DIR / dir_name
+    if potential_path.exists():
+        MODELOS = potential_path
+        break
+
+if MODELOS is None:
+    raise FileNotFoundError("No se han encontrado los directorios 'modelos' ni 'models' en el directorio actual.")
+
 INFERENCE_OUTPUT_DIRNAME = CURRENT_DIR / "inference_output"
 
 def get_container_format(filename):
